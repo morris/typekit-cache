@@ -23,7 +23,7 @@ That's it, your website should be caching your Typekit happily.
 Check the `typekit-cache.js` source for customization.
 For example, you could swap `sessionStorage` for `localStorage`.
 
-You *could* cancel loading the entire Typekit if you find that fonts are in the cache.
+You *could* cancel loading the entire Typekit if you find that fonts are in the cache,
 but that seems to violate Typekit's Terms Of Use clearly.
 
 This script instead only disables the Typekit `<link>` and gets the CSS via XHR,
