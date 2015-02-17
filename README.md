@@ -15,7 +15,7 @@ See license for more disclaimers.__
 
 ## Usage
 
-Copy the contents of `typekit-cache.min.js` right before your Typekit (advanced) embed code.
+Copy the contents of __[typekit-cache.min.js](https://raw.githubusercontent.com/morris/typekit-cache/master/typekit-cache.min.js)__ right before your Typekit (advanced) embed code.
 That's it, your website should be caching your Typekit happily.
 
 ## Notes
