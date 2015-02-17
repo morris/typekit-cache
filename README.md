@@ -20,6 +20,9 @@ That's it, your website should be caching your Typekit happily.
 
 ## Notes
 
+This script is experimental and not well tested (only basic tests in Firefox and Chrome).
+Please contribute issues and PRs if you find any quirks.
+
 Check the `typekit-cache.js` source for customization.
 For example, you could swap `sessionStorage` for `localStorage`.
 
