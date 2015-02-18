@@ -3,7 +3,13 @@
 	if ( !storage ) return;
 
 	var cached = storage[ key ];
-	if ( cached ) addStyle( cached );
+	if ( cached ) {
+
+		var style = document.createElement( 'style' );
+		style.innerHTML = cached;
+		document.getElementsByTagName( 'head' )[0].appendChild( style );
+
+	}
 
 	var setAttribute = proto.setAttribute;
 	proto.setAttribute = function( name, url ) {
@@ -17,10 +23,7 @@
 				if ( xhr.readyState === 4 ) {
 
 					var css = xhr.responseText;
-					if ( css !== cached ) {
-						storage[ key ] = css;
-						addStyle( css );
-					}
+					if ( css !== cached ) storage[ key ] = css;
 
 				}
 
@@ -28,21 +31,12 @@
 			xhr.send( null );
 
 			proto.setAttribute = setAttribute;
-			return;
+			if ( cached ) return;
 
 		}
 
 		setAttribute.apply( this, arguments );
 
 	};
-
-	function addStyle( css ) {
-
-		var style = document.createElement( 'style' );
-		style.innerHTML = css;
-		var script = document.getElementsByTagName( 'script' )[0];
-		script.parentNode.insertBefore( style, script );
-
-	}
 
 })( document, Element.prototype, localStorage, 'tk', '//use.typekit.net' );
