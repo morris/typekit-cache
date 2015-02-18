@@ -37,4 +37,4 @@ Also, the Typekit embed code is not altered.
 Typekits may be quite large, and the performance impact of including
 them as inline stylesheets is not yet tested.
 
-The minified version is built using `uglifyjs typekit-cache.js -o typekit-cache.min-js --compress --mangle`.
+The minified version is built using `uglifyjs typekit-cache.js -o typekit-cache.min.js --compress --mangle`.

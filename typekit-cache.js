@@ -40,7 +40,8 @@
 
 		var style = document.createElement( 'style' );
 		style.innerHTML = css;
-		document.getElementsByTagName( 'head' )[0].appendChild( style );
+		var script = document.getElementsByTagName( 'script' )[0];
+		script.parentNode.insertBefore( style, script );
 
 	}
 
