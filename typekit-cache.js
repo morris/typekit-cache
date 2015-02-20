@@ -1,34 +1,48 @@
-(function( document, proto, storage, key, pattern ) {
+(function( document, proto, storage, key, pattern, /* min */ cached, style, setAttribute ) {
+
+	// Do nothing if localStorage is not available
 
 	if ( !storage ) return;
 
-	var cached = storage[ key ];
+	// If CSS is in cache, append it to <head> in a <style> tag.
+
+	cached = storage[ key ];
 	if ( cached ) {
 
-		var style = document.createElement( 'style' );
+		style = document.createElement( 'style' );
 		style.innerHTML = cached;
 		document.getElementsByTagName( 'head' )[0].appendChild( style );
 
 	}
 
-	var setAttribute = proto.setAttribute;
-	proto.setAttribute = function( name, url ) {
+	// The typekit will at some point create a <link> to load its CSS.
+	// Override Element.proto.setAttribute to handle setting its href.
 
-		if ( this.tagName === 'LINK' && url.match( pattern ) ) {
+	setAttribute = proto.setAttribute;
+	proto.setAttribute = function( name, url, /* min */ xhr, css ) {
 
-			var xhr = new XMLHttpRequest();
+		if ( url.match( pattern ) ) {
+
+			// Get the CSS of the URL via XHR and cache it.
+			// Only overwrite cache if CSS has changed.
+
+			xhr = new XMLHttpRequest();
 			xhr.open( 'GET', url, true );
 			xhr.onreadystatechange = function() {
 
 				if ( xhr.readyState === 4 ) {
 
-					var css = xhr.responseText;
+					css = xhr.responseText;
 					if ( css !== cached ) storage[ key ] = css;
 
 				}
 
 			};
 			xhr.send( null );
+
+			// Reset Element.prototype.setAttribute.
+			// If the cache was empty, set the href normally.
+			// Otherwise, cancel setting the href.
 
 			proto.setAttribute = setAttribute;
 			if ( cached ) return;
