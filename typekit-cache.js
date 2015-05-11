@@ -20,35 +20,35 @@
 
 	setAttribute = proto.setAttribute;
 	proto.setAttribute = function( name, url, /* min */ xhr, css ) {
-
-		if ( url.match( pattern ) ) {
-
-			// Get the CSS of the URL via XHR and cache it.
-			// Only overwrite cache if CSS has changed.
-
-			xhr = new XMLHttpRequest();
-			xhr.open( 'GET', url, true );
-			xhr.onreadystatechange = function() {
-
-				if ( xhr.readyState === 4 ) {
-
-					css = xhr.responseText;
-					if ( css !== cached ) storage[ key ] = css;
-
-				}
-
-			};
-			xhr.send( null );
-
-			// Reset Element.prototype.setAttribute.
-			// If the cache was empty, set the href normally.
-			// Otherwise, cancel setting the href.
-
-			proto.setAttribute = setAttribute;
-			if ( cached ) return;
-
+		if( typeof url === 'string'){
+			if ( url.match( pattern ) ) {
+	
+				// Get the CSS of the URL via XHR and cache it.
+				// Only overwrite cache if CSS has changed.
+	
+				xhr = new XMLHttpRequest();
+				xhr.open( 'GET', url, true );
+				xhr.onreadystatechange = function() {
+	
+					if ( xhr.readyState === 4 ) {
+	
+						css = xhr.responseText;
+						if ( css !== cached ) storage[ key ] = css;
+	
+					}
+	
+				};
+				xhr.send( null );
+	
+				// Reset Element.prototype.setAttribute.
+				// If the cache was empty, set the href normally.
+				// Otherwise, cancel setting the href.
+	
+				proto.setAttribute = setAttribute;
+				if ( cached ) return;
+	
+			}
 		}
-
 		setAttribute.apply( this, arguments );
 
 	};
