@@ -1,7 +1,7 @@
 # Typekit Cache
 
 Keeps a site's [Typekit][tk] in localStorage and injects it on page load.
-Completely eliminates the dreaded Flash Of Invisible/Unstyled Text
+Completely eliminates the annoying Flash Of Invisible/Unstyled Text
 and provides better UX for slow or offline connections.
 
 The same requests are sent as in loading a Typekit regularly, and the Typekit embed code is unaltered.
@@ -15,7 +15,7 @@ That's it, your website should be caching your Typekit happily.
 
 ```html
 <script>
-	!function(e,t,n,a,s,o,r,u){ // ...
+	!function(t,e,n,a,s,o,r,i){ // ...
 </script>
 <script>
 	(function(d) {
