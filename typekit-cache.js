@@ -1,4 +1,4 @@
-(function( document, proto, storage, key, pattern, /* min */ cached, style, setAttribute ) {
+( function ( document, proto, storage, key, pattern, /* min */ cached, style, setAttribute ) {
 
 	// Do nothing if localStorage is not available
 
@@ -11,7 +11,7 @@
 
 		style = document.createElement( 'style' );
 		style.innerHTML = cached;
-		document.getElementsByTagName( 'head' )[0].appendChild( style );
+		document.getElementsByTagName( 'head' )[ 0 ].appendChild( style );
 
 	}
 
@@ -19,7 +19,7 @@
 	// Override Element.proto.setAttribute to handle setting its href.
 
 	setAttribute = proto.setAttribute;
-	proto.setAttribute = function( name, url, /* min */ xhr, css ) {
+	proto.setAttribute = function ( name, url, /* min */ xhr, css ) {
 
 		if ( typeof url === 'string' && url.match( pattern ) ) {
 
@@ -28,7 +28,7 @@
 
 			xhr = new XMLHttpRequest();
 			xhr.open( 'GET', url, true );
-			xhr.onreadystatechange = function() {
+			xhr.onreadystatechange = function () {
 
 				if ( xhr.readyState === 4 ) {
 
@@ -53,4 +53,4 @@
 
 	};
 
-})( document, Element.prototype, localStorage, 'tk', '//use.typekit.net' );
+} )( document, Element.prototype, localStorage, 'tk', '//use.typekit.net' );
