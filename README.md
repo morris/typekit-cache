@@ -15,7 +15,7 @@ That's it, your website should be caching your Typekit happily.
 
 ```html
 <script>
-	!function(t,e,n,a,s,o,r,i){ // ...
+	!function(e,t,n,a,r,s,l,p){ // ...
 </script>
 <script>
 	(function(d) {
@@ -28,11 +28,11 @@ That's it, your website should be caching your Typekit happily.
 </script>
 ```
 
+
 ## Notes
 
 Works in recent Firefox, Chrome, Safari, and IE.
 Please contribute issues and PRs if you find any quirks.
-
 Check the unminified, commented `typekit-cache.js` for more information.
 
 Typekits may be quite large, and the performance impact of injecting
@@ -40,6 +40,13 @@ them as inline stylesheets is not well tested.
 
 The minified version is built using `uglifyjs typekit-cache.js -o typekit-cache.min.js --compress --mangle`.
 
+
+## Contributors
+
+- [Artem Gordinsky](https://github.com/ArtemGordinsky)
+- [Dave Garwacke](https://github.com/ifyoumakeit)
+
+Thanks!
 
 [tk]: https://typekit.com/
 [tou]: http://www.adobe.com/products/eulas/tou_typekit/
