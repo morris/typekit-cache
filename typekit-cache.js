@@ -33,7 +33,7 @@
 				if ( xhr.readyState === 4 ) {
 
 					// Make relative URLs absolute. Fixes #2
-					css = xhr.responseText.replace( 'url(/', 'url(' + domain + '/' );
+					css = xhr.responseText.replace( /url\(\//g, 'url(' + domain + '/' );
 
 					if ( css !== cached ) storage[ key ] = css;
 

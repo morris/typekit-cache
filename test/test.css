@@ -6,6 +6,10 @@
 	background: url(/favicon.ico)
 }
 
+.relative2 {
+	background: url(/favicon.ico)
+}
+
 .absolute {
 	background: url(https://github.com/favicon.ico)
 }

@@ -50,6 +50,7 @@
 					var css = $style.html();
 					assert.equal( css.indexOf( 'url(data:' ) > -1, true );
 					assert.equal( css.indexOf( 'url(https://use.typekit.net/favicon.ico)' ) > -1, true );
+					assert.equal( css.indexOf( 'url(/favicon.ico)' ), -1 );
 					assert.equal( css.indexOf( 'url(https://github.com/favicon.ico)' ) > -1, true );
 
 					done();
