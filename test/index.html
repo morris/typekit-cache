@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Typekit Cache Tests</title>
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/qunit/1.18.0/qunit.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/qunit/1.18.0/qunit.min.js"></script>
+		<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+	</head>
+
+	<body>
+		<div id="qunit"></div>
+		<div id="qunit-fixture"></div>
+
+		<p><button onclick="javascript:localStorage.removeItem( 'tk' )">Reset localStorage</button></p>
+
+		<script src="../typekit-cache.js"></script>
+		<script>
+			QUnit.test( 'It should cache Typekit CSS and make relative URLs absolute', function ( assert ) {
+
+				var done = assert.async();
+				var initial = !localStorage[ 'tk' ];
+				var $p = $( '<p></p>' ).attr( 'class', 'test' );
+				var $link = $( '<link>' ).attr( 'href', 'test.css?test=https://use.typekit.net' );
+
+				setTimeout( function () {
+
+					// In any case, the p class should have been set
+					assert.equal( $p.hasClass( 'test' ), true );
+
+					if ( initial ) {
+
+						// Nothing in cache
+						// The href should have been set normally
+						assert.equal( $link.attr( 'href' ), 'test.css?test=https://use.typekit.net' );
+						assert.equal( false, true, 'Not cached, please rerun' );
+						return done();
+
+					}
+
+					// Setting the href should have been prevented
+					assert.equal( $link.attr( 'href' ), undefined );
+
+					// There should be one style element
+					var $style = $( 'style' );
+					assert.equal( $style.length, 1 );
+
+					// The style element should have replaced relative URLs
+					var css = $style.html();
+					assert.equal( css.indexOf( 'url(data:' ) > -1, true );
+					assert.equal( css.indexOf( 'url(https://use.typekit.net/favicon.ico)' ) > -1, true );
+					assert.equal( css.indexOf( 'url(https://github.com/favicon.ico)' ) > -1, true );
+
+					done();
+
+				}, 100 );
+
+			} );
+		</script>
+	</body>
+</html>

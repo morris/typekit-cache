@@ -1,4 +1,4 @@
-( function ( document, proto, storage, key, pattern, /* min */ cached, style, setAttribute ) {
+( function ( document, proto, storage, key, domain, /* min */ cached, style, setAttribute ) {
 
 	// Do nothing if localStorage is not available
 
@@ -16,12 +16,12 @@
 	}
 
 	// The typekit will at some point create a <link> to load its CSS.
-	// Override Element.proto.setAttribute to handle setting its href.
+	// Override Element.prototype.setAttribute to handle setting its href.
 
 	setAttribute = proto.setAttribute;
 	proto.setAttribute = function ( name, url, /* min */ xhr, css ) {
 
-		if ( typeof url === 'string' && url.match( pattern ) ) {
+		if ( typeof url === 'string' && url.indexOf( domain ) > -1 ) {
 
 			// Get the CSS of the URL via XHR and cache it.
 			// Only overwrite cache if CSS has changed.
@@ -32,7 +32,9 @@
 
 				if ( xhr.readyState === 4 ) {
 
-					css = xhr.responseText;
+					// Make relative URLs absolute. Fixes #2
+					css = xhr.responseText.replace( 'url(/', 'url(' + domain + '/' );
+
 					if ( css !== cached ) storage[ key ] = css;
 
 				}
@@ -53,4 +55,4 @@
 
 	};
 
-} )( document, Element.prototype, localStorage, 'tk', '//use.typekit.net' );
+} )( document, Element.prototype, localStorage, 'tk', 'https://use.typekit.net' );
