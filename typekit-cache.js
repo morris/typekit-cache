@@ -1,8 +1,18 @@
 ( function ( document, proto, storage, key, domain, /* min */ cached, style, setAttribute ) {
 
-	// Do nothing if localStorage is not available
-
+	// Check if localStorage exists and actually works without raising an error.
 	if ( !storage ) return;
+
+	try {
+		storage.setItem(key + "-test", "x");
+
+		if (storage.getItem(key + "-test") != "x")
+			return;
+
+		storage.removeItem(key + "-test");
+	} catch (e) {
+		return;
+	}
 
 	// If CSS is in cache, append it to <head> in a <style> tag.
 
