@@ -15,43 +15,45 @@
 
 		<p><button onclick="javascript:localStorage.removeItem( 'tk' )">Reset localStorage</button></p>
 
+		<script>
+			window.setAttributeOriginal = Element.prototype.setAttribute;
+		</script>
 		<script src="../typekit-cache.js"></script>
 		<script>
 			QUnit.test( 'It should cache Typekit CSS and make relative URLs absolute', function ( assert ) {
 
 				var done = assert.async();
 				var initial = !localStorage[ 'tk' ];
+
+				assert.notEqual( Element.prototype.setAttribute, window.setAttributeOriginal, 'setAttribute should have been replaced' );
+
 				var $p = $( '<p></p>' ).attr( 'class', 'test' );
 				var $link = $( '<link>' ).attr( 'href', 'test.css?test=https://use.typekit.net' );
 
 				setTimeout( function () {
 
-					// In any case, the p class should have been set
-					assert.equal( $p.hasClass( 'test' ), true );
+					assert.equal( Element.prototype.setAttribute, window.setAttributeOriginal, 'setAttribute should have been reset' );
+					assert.equal( $p.hasClass( 'test' ), true, 'The p class should have been set' );
+
+					var $style = $( 'style' );
+					var css = $style.html();
 
 					if ( initial ) {
 
-						// Nothing in cache
-						// The href should have been set normally
-						assert.equal( $link.attr( 'href' ), 'test.css?test=https://use.typekit.net' );
+						assert.equal( $link.attr( 'href' ), 'test.css?test=https://use.typekit.net', 'Nothing in cache, the href should have been set normally' );
+						assert.equal( $style.length === 0 || css === '', true, 'There should be no style element, or it should be empty' );
 						assert.equal( false, true, 'Not cached, please rerun' );
 						return done();
 
 					}
 
-					// Setting the href should have been prevented
-					assert.equal( $link.attr( 'href' ), undefined );
+					assert.equal( $link.attr( 'href' ), undefined, 'Setting the href should have been prevented' );
+					assert.equal( $style.length, 1, 'There should be one style element' );
 
-					// There should be one style element
-					var $style = $( 'style' );
-					assert.equal( $style.length, 1 );
-
-					// The style element should have replaced relative URLs
-					var css = $style.html();
-					assert.equal( css.indexOf( 'url(data:' ) > -1, true );
-					assert.equal( css.indexOf( 'url(https://use.typekit.net/favicon.ico)' ) > -1, true );
-					assert.equal( css.indexOf( 'url(/favicon.ico)' ), -1 );
-					assert.equal( css.indexOf( 'url(https://github.com/favicon.ico)' ) > -1, true );
+					assert.equal( css.indexOf( 'url(data:' ) > -1, true, 'Data URLs should not have changed' );
+					assert.equal( css.indexOf( 'url(/favicon.ico)' ), -1, 'Relative URLs should have been replaced...' );
+					assert.equal( css.indexOf( 'url(https://use.typekit.net/favicon.ico)' ) > -1, true, '... with absolute URLs' );
+					assert.equal( css.indexOf( 'url(https://github.com/favicon.ico)' ) > -1, true, 'Other absolute URLs should not have changed' );
 
 					done();
 

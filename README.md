@@ -1,6 +1,6 @@
 # Typekit Cache
 
-Keeps a site's [Typekit][tk] in localStorage and injects it on page load.
+Keeps a site's [Typekit][tk] in `localStorage` and injects it on page load.
 Completely eliminates the annoying Flash Of Invisible/Unstyled Text
 and provides better UX for slow or offline connections.
 
@@ -32,8 +32,11 @@ That's it, your website should be caching your Typekit happily.
 ## Notes
 
 Works in recent Firefox, Chrome, Safari, and IE.
-Please contribute issues and PRs if you find any quirks.
-Check the unminified, commented `typekit-cache.js` for more information.
+Please contribute issues and pull requests if you find any quirks.
+Check `typekit-cache.js` for more information.
+
+Quota errors in `localStorage` are silently ignored.
+The quota is set to 0 in Safari Privat Mode so Typekits will not be cached.
 
 Typekits may be quite large, and the performance impact of injecting
 them as inline stylesheets is not well tested.
@@ -45,6 +48,7 @@ The minified version is built using `uglifyjs typekit-cache.js -o typekit-cache.
 
 - [Artem Gordinsky](https://github.com/ArtemGordinsky)
 - [Dave Garwacke](https://github.com/ifyoumakeit)
+- [Michael Baldry](https://github.com/brightbits)
 
 Thanks!
 

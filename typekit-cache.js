@@ -8,11 +8,9 @@
 
 	cached = storage[ key ];
 	if ( cached ) {
-
 		style = document.createElement( 'style' );
 		style.innerHTML = cached;
 		document.getElementsByTagName( 'head' )[ 0 ].appendChild( style );
-
 	}
 
 	// The typekit will at some point create a <link> to load its CSS.
@@ -35,7 +33,16 @@
 					// Make relative URLs absolute. Fixes #2
 					css = xhr.responseText.replace( /url\(\//g, 'url(' + domain + '/' );
 
-					if ( css !== cached ) storage[ key ] = css;
+					try {
+
+						if ( css !== cached ) storage[ key ] = css;
+
+					} catch ( ex ) {
+
+						// Quota exceeded, fall back to regular behavior. Fixes #3
+						if ( cached ) cached = style.innerHTML = '';
+
+					}
 
 				}
 
