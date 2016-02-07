@@ -15,7 +15,7 @@ That's it, your website should be caching your Typekit happily.
 
 ```html
 <script>
-	!function(e,t,n,a,r,s,l,p){ // ...
+	try{!function(t,e,n,r,a,s,i,l) // ...
 </script>
 <script>
 	(function(d) {
