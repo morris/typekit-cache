@@ -1,65 +1,74 @@
-( function ( document, proto, storage, key, domain, /* min */ cached, style, setAttribute ) {
+try {
 
-	// Do nothing if localStorage is not available
+	( function ( document, proto, storage, key, domain, /* min */ cached, style, setAttribute ) {
 
-	if ( !storage ) return;
+		// Do nothing if localStorage is not available
 
-	// If CSS is in cache, append it to <head> in a <style> tag.
+		if ( !storage ) return;
 
-	cached = storage[ key ];
-	if ( cached ) {
-		style = document.createElement( 'style' );
-		style.innerHTML = cached;
-		document.getElementsByTagName( 'head' )[ 0 ].appendChild( style );
-	}
+		// If CSS is in cache, append it to <head> in a <style> tag.
 
-	// The typekit will at some point create a <link> to load its CSS.
-	// Override Element.prototype.setAttribute to handle setting its href.
+		cached = storage[ key ];
+		if ( cached ) {
+			style = document.createElement( 'style' );
+			style.innerHTML = cached;
+			document.getElementsByTagName( 'head' )[ 0 ].appendChild( style );
+		}
 
-	setAttribute = proto.setAttribute;
-	proto.setAttribute = function ( name, url, /* min */ xhr, css ) {
+		// The typekit will at some point create a <link> to load its CSS.
+		// Override Element.prototype.setAttribute to handle setting its href.
 
-		if ( typeof url === 'string' && url.indexOf( domain ) > -1 ) {
+		setAttribute = proto.setAttribute;
+		proto.setAttribute = function ( name, url, /* min */ xhr, css ) {
 
-			// Get the CSS of the URL via XHR and cache it.
-			// Only overwrite cache if CSS has changed.
+			if ( typeof url === 'string' && url.indexOf( domain ) > -1 ) {
 
-			xhr = new XMLHttpRequest();
-			xhr.open( 'GET', url, true );
-			xhr.onreadystatechange = function () {
+				// Get the CSS of the URL via XHR and cache it.
+				// Only overwrite cache if CSS has changed.
 
-				if ( xhr.readyState === 4 ) {
+				xhr = new XMLHttpRequest();
+				xhr.open( 'GET', url, true );
+				xhr.onreadystatechange = function () {
 
-					// Make relative URLs absolute. Fixes #2
-					css = xhr.responseText.replace( /url\(\//g, 'url(' + domain + '/' );
+					if ( xhr.readyState === 4 ) {
 
-					try {
+						// Make relative URLs absolute. Fixes #2
+						css = xhr.responseText.replace( /url\(\//g, 'url(' + domain + '/' );
 
-						if ( css !== cached ) storage[ key ] = css;
+						try {
 
-					} catch ( ex ) {
+							if ( css !== cached ) storage[ key ] = css;
 
-						// Quota exceeded, fall back to regular behavior. Fixes #3
-						if ( cached ) cached = style.innerHTML = '';
+						} catch ( ex ) {
+
+							// Quota exceeded, fall back to regular behavior. Fixes #3
+							if ( cached ) cached = style.innerHTML = '';
+
+						}
 
 					}
 
-				}
+				};
+				xhr.send( null );
 
-			};
-			xhr.send( null );
+				// Reset Element.prototype.setAttribute.
+				// If the cache was empty, set the href normally.
+				// Otherwise, cancel setting the href.
 
-			// Reset Element.prototype.setAttribute.
-			// If the cache was empty, set the href normally.
-			// Otherwise, cancel setting the href.
+				proto.setAttribute = setAttribute;
+				if ( cached ) return;
 
-			proto.setAttribute = setAttribute;
-			if ( cached ) return;
+			}
 
-		}
+			setAttribute.apply( this, arguments );
 
-		setAttribute.apply( this, arguments );
+		};
 
-	};
+	} )( document, Element.prototype, localStorage, 'tk', 'https://use.typekit.net' );
 
-} )( document, Element.prototype, localStorage, 'tk', 'https://use.typekit.net' );
+} catch ( x ) {
+
+	// Support Chrome
+	// Ignore errors caused by referencing localStorage
+
+}
