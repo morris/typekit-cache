@@ -47,7 +47,8 @@
 
 					}
 
-					assert.equal( $link.attr( 'href' ), undefined, 'Setting the href should have been prevented' );
+					// Not preventing anymore for wf-active #5
+					//assert.equal( $link.attr( 'href' ), undefined, 'Setting the href should have been prevented' );
 					assert.equal( $style.length, 1, 'There should be one style element' );
 
 					assert.equal( css.indexOf( 'url(data:' ) > -1, true, 'Data URLs should not have changed' );
