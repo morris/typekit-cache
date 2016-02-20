@@ -49,6 +49,7 @@ The minified version is built using `uglifyjs typekit-cache.js -o typekit-cache.
 - [Artem Gordinsky](https://github.com/ArtemGordinsky)
 - [Dave Garwacke](https://github.com/ifyoumakeit)
 - [Michael Baldry](https://github.com/brightbits)
+- [Jan Persoons](https://github.com/janpersoons)
 
 Thanks!
 
