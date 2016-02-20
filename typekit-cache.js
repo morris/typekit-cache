@@ -52,11 +52,9 @@ try {
 				xhr.send( null );
 
 				// Reset Element.prototype.setAttribute.
-				// If the cache was empty, set the href normally.
-				// Otherwise, cancel setting the href.
+				// Continue setting the href, browsers will cache the second request
 
 				proto.setAttribute = setAttribute;
-				if ( cached ) return;
 
 			}
 
