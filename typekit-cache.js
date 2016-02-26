@@ -13,6 +13,7 @@ try {
 			style = document.createElement( 'style' );
 			style.innerHTML = cached;
 			document.getElementsByTagName( 'head' )[ 0 ].appendChild( style );
+			document.documentElement.className += ' wf-cached';
 		}
 
 		// The typekit will at some point create a <link> to load its CSS.
