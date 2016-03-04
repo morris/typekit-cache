@@ -1,8 +1,8 @@
 # Typekit Cache
 
 Keeps a site's [Typekit][tk] in `localStorage` and injects it on page load.
-Completely eliminates the annoying Flash Of Invisible/Unstyled Text
-and provides better UX for slow or offline connections.
+Eliminates the annoying Flash Of Invisible/Unstyled Text (FOUT) and provides
+better UX for slow or offline connections.
 
 The same requests are sent as in loading a Typekit regularly, and the Typekit embed code is unaltered.
 However, using this script may still violate the [Typekit Terms Of Use][tou].
@@ -28,7 +28,6 @@ That's it, your website should be caching your Typekit happily.
 </script>
 ```
 
-
 ## Notes
 
 Works in recent Firefox, Chrome, Safari, and IE.
@@ -41,6 +40,16 @@ The quota is set to 0 in Safari Privat Mode so Typekits will not be cached.
 Typekits may be quite large, and the performance impact of injecting
 them as inline stylesheets is not well tested.
 
+FOUC can still occur on first page load. You can choose to hide text while the
+font is being loaded. A good option is to hide text when `wf-active`,
+`wf-inactive` or `wf-cached` classes are missing on the `<html>` element.
+
+```css
+html:not(.wf-active):not(.wf-inactive):not(.wf-cached) * {
+  /* Hide text */
+}
+```
+
 The minified version is built using `uglifyjs typekit-cache.js -o typekit-cache.min.js --compress --mangle`.
 
 
@@ -50,6 +59,7 @@ The minified version is built using `uglifyjs typekit-cache.js -o typekit-cache.
 - [Dave Garwacke](https://github.com/ifyoumakeit)
 - [Michael Baldry](https://github.com/brightbits)
 - [Jan Persoons](https://github.com/janpersoons)
+- [Tristan Koch](https://github.com/trkoch)
 
 Thanks!
 
