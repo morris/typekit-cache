@@ -1,0 +1,30 @@
+{
+  "name": "typekit-cache",
+  "version": "1.4.1",
+  "description": "Keeps a site's Typekit in localStorage and injects it on page load. Eliminates the annoying Flash Of Invisible/Unstyled Text (FOUT) and provides better UX for slow or offline connections.",
+  "main": "typekit-cache.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "uglifyjs": "^2.4.10"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "uglifyjs typekit-cache.js -o typekit-cache.min.js --compress --mangle"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/morris/typekit-cache.git"
+  },
+  "keywords": [
+    "typekit"
+  ],
+  "author": "Morris Brodersen <mb@morrisbrodersen.de>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/morris/typekit-cache/issues"
+  },
+  "homepage": "https://github.com/morris/typekit-cache#readme"
+}

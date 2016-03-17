@@ -1,0 +1,21 @@
+{
+  "name": "typekit-cache",
+  "description": "Keeps a site's Typekit in localStorage and injects it on page load. Eliminates the annoying Flash Of Invisible/Unstyled Text (FOUT) and provides better UX for slow or offline connections.",
+  "main": "typekit-cache.js",
+  "authors": [
+    "Morris Brodersen <mb@morrisbrodersen.de>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "typekit"
+  ],
+  "homepage": "https://github.com/morris/typekit-cache",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
