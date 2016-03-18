@@ -50,8 +50,14 @@ html:not(.wf-active):not(.wf-inactive):not(.wf-cached) * {
 }
 ```
 
-The minified version is built using `uglifyjs typekit-cache.js -o typekit-cache.min.js --compress --mangle`.
+## Contributing
 
+The minified version is built using uglifyjs which is installed as a local dependency. To install and build run the following commands:
+
+```
+$ npm install
+$ npm run prepublish
+```
 
 ## Contributors
 
@@ -60,6 +66,7 @@ The minified version is built using `uglifyjs typekit-cache.js -o typekit-cache.
 - [Michael Baldry](https://github.com/brightbits)
 - [Jan Persoons](https://github.com/janpersoons)
 - [Tristan Koch](https://github.com/trkoch)
+- [Luke Bussey](https://github.com/lukebussey)
 
 Thanks!
 
