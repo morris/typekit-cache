@@ -26,31 +26,35 @@ try {
 
 				// Get the CSS of the URL via XHR and cache it.
 				// Only overwrite cache if CSS has changed.
+				// 
+				try {
+					xhr = new XMLHttpRequest();
+					xhr.open( 'GET', url, true );
+					xhr.onreadystatechange = function () {
 
-				xhr = new XMLHttpRequest();
-				xhr.open( 'GET', url, true );
-				xhr.onreadystatechange = function () {
+						if ( xhr.readyState === 4 ) {
 
-					if ( xhr.readyState === 4 ) {
+							// Make relative URLs absolute. Fixes #2
+							css = xhr.responseText.replace( /url\(\//g, 'url(' + domain + '/' );
 
-						// Make relative URLs absolute. Fixes #2
-						css = xhr.responseText.replace( /url\(\//g, 'url(' + domain + '/' );
+							try {
 
-						try {
+								if ( css !== cached ) storage[ key ] = css;
 
-							if ( css !== cached ) storage[ key ] = css;
+							} catch ( ex ) {
 
-						} catch ( ex ) {
+								// Quota exceeded, fall back to regular behavior. Fixes #3
+								if ( cached ) cached = style.innerHTML = '';
 
-							// Quota exceeded, fall back to regular behavior. Fixes #3
-							if ( cached ) cached = style.innerHTML = '';
+							}
 
 						}
 
-					}
+					};
+					xhr.send( null );
+				} catch ( ex ) {
 
-				};
-				xhr.send( null );
+				}
 
 				// Reset Element.prototype.setAttribute.
 				// Continue setting the href, browsers will cache the second request
