@@ -1,76 +1,68 @@
-try {
+( function ( document, proto, method, storage, key, domain, /* min */ cached, style, setAttribute ) {
 
-	( function ( document, proto, storage, key, domain, /* min */ cached, style, setAttribute ) {
+	// If CSS is in cache, append it to <head> in a <style> tag.
 
-		// If CSS is in cache, append it to <head> in a <style> tag.
+	cached = storage[ key ];
+	if ( cached ) {
+		style = document.createElement( 'style' );
+		style.innerHTML = cached;
+		document.getElementsByTagName( 'head' )[ 0 ].appendChild( style );
+		document.documentElement.className += ' wf-cached';
+	}
 
-		cached = storage[ key ];
-		if ( cached ) {
-			style = document.createElement( 'style' );
-			style.innerHTML = cached;
-			document.getElementsByTagName( 'head' )[ 0 ].appendChild( style );
-			document.documentElement.className += ' wf-cached';
-		}
+	// The typekit will at some point create a <link> to load its CSS.
+	// Override Element.prototype.setAttribute to handle setting its href.
 
-		// The typekit will at some point create a <link> to load its CSS.
-		// Override Element.prototype.setAttribute to handle setting its href.
+	setAttribute = proto[ method ];
+	proto[ method ] = function ( name, url, /* min */ xhr, css ) {
 
-		setAttribute = proto.setAttribute;
-		proto.setAttribute = function ( name, url, /* min */ xhr, css ) {
+		if ( typeof url == 'string' && url.indexOf( domain ) > -1 ) {
 
-			if ( typeof url === 'string' && url.indexOf( domain ) > -1 ) {
+			try {
 
-				try {
+				// Get the CSS of the URL via XHR and cache it.
+				// Only overwrite cache if CSS has changed.
 
-					// Get the CSS of the URL via XHR and cache it.
-					// Only overwrite cache if CSS has changed.
+				xhr = new XMLHttpRequest();
+				xhr.open( 'GET', url, true );
+				xhr.onreadystatechange = function () {
 
-					xhr = new XMLHttpRequest();
-					xhr.open( 'GET', url, true );
-					xhr.onreadystatechange = function () {
+					try {
 
-						try {
+						if ( xhr.readyState == 4 ) {
 
-							if ( xhr.readyState === 4 ) {
+							// Make relative URLs absolute. Fixes #2
+							css = xhr.responseText.replace( /url\(\//g, 'url(' + domain + '/' );
 
-								// Make relative URLs absolute. Fixes #2
-								css = xhr.responseText.replace( /url\(\//g, 'url(' + domain + '/' );
-
-								// Store new CSS if modified.
-								if ( css !== cached ) storage[ key ] = css;
-
-							}
-
-						} catch ( ex ) {
-
-							// Fall back to regular behavior. Fixes #3
-							if ( style ) style.innerHTML = '';
+							// Store new CSS if modified.
+							if ( css !== cached ) storage[ key ] = css;
 
 						}
 
-					};
-					xhr.send( null );
+					} catch ( x ) {
 
-				} catch ( ex ) {
+						// Fall back to regular behavior. Fixes #3
+						if ( style ) style.innerHTML = '';
 
-					// The only possible side effect here is an empty <style> element.
+					}
 
-				}
+				};
+				xhr.send( null );
 
-				// Reset Element.prototype.setAttribute
-				proto.setAttribute = setAttribute;
+			} catch ( x ) {
+
+				// The only possible side effect here is an empty <style> element.
 
 			}
 
-			// Always apply original setAttribute
-			return setAttribute.apply( this, arguments );
+			// Reset Element.prototype.setAttribute
+			proto[ method ] = setAttribute;
 
-		};
+		}
 
-	} )( document, Element.prototype, localStorage, 'tk', 'https://use.typekit.net' );
+		// Always apply original setAttribute
+		return setAttribute.apply( this, arguments );
 
-} catch ( ex ) {
+	};
 
-   // Don't care about empty <style> element.
-
-}
+} )( document, Element.prototype, 'setAttribute', localStorage, 'tk', 'https://use.typekit.net' );
