@@ -2,10 +2,6 @@ try {
 
 	( function ( document, proto, storage, key, domain, /* min */ cached, style, setAttribute ) {
 
-		// Do nothing if localStorage is not available
-
-		if ( !storage ) return;
-
 		// If CSS is in cache, append it to <head> in a <style> tag.
 
 		cached = storage[ key ];
@@ -24,50 +20,57 @@ try {
 
 			if ( typeof url === 'string' && url.indexOf( domain ) > -1 ) {
 
-				// Get the CSS of the URL via XHR and cache it.
-				// Only overwrite cache if CSS has changed.
+				try {
 
-				xhr = new XMLHttpRequest();
-				xhr.open( 'GET', url, true );
-				xhr.onreadystatechange = function () {
+					// Get the CSS of the URL via XHR and cache it.
+					// Only overwrite cache if CSS has changed.
 
-					if ( xhr.readyState === 4 ) {
-
-						// Make relative URLs absolute. Fixes #2
-						css = xhr.responseText.replace( /url\(\//g, 'url(' + domain + '/' );
+					xhr = new XMLHttpRequest();
+					xhr.open( 'GET', url, true );
+					xhr.onreadystatechange = function () {
 
 						try {
 
-							if ( css !== cached ) storage[ key ] = css;
+							if ( xhr.readyState === 4 ) {
+
+								// Make relative URLs absolute. Fixes #2
+								css = xhr.responseText.replace( /url\(\//g, 'url(' + domain + '/' );
+
+								// Store new CSS if modified.
+								if ( css !== cached ) storage[ key ] = css;
+
+							}
 
 						} catch ( ex ) {
 
-							// Quota exceeded, fall back to regular behavior. Fixes #3
-							if ( cached ) cached = style.innerHTML = '';
+							// Fall back to regular behavior. Fixes #3
+							if ( style ) style.innerHTML = '';
 
 						}
 
-					}
+					};
+					xhr.send( null );
 
-				};
-				xhr.send( null );
+				} catch ( ex ) {
 
-				// Reset Element.prototype.setAttribute.
-				// Continue setting the href, browsers will cache the second request
+					// The only possible side effect here is an empty <style> element.
 
+				}
+
+				// Reset Element.prototype.setAttribute
 				proto.setAttribute = setAttribute;
 
 			}
 
-			setAttribute.apply( this, arguments );
+			// Always apply original setAttribute
+			return setAttribute.apply( this, arguments );
 
 		};
 
 	} )( document, Element.prototype, localStorage, 'tk', 'https://use.typekit.net' );
 
-} catch ( x ) {
+} catch ( ex ) {
 
-	// Support Chrome
-	// Ignore errors caused by referencing localStorage
+   // Don't care about empty <style> element.
 
 }
