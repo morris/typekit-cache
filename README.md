@@ -1,4 +1,6 @@
-# Typekit Cache <small>Revision 5</small>
+# Typekit Cache
+
+ *Revision 5*
 
 Keeps a site's [Typekit][tk] in `localStorage` and injects it on page load.
 Eliminates the annoying Flash Of Invisible/Unstyled Text (FOUT) and provides
