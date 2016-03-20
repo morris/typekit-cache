@@ -1,4 +1,4 @@
-# Typekit Cache
+# Typekit Cache <small>Revision 5</small>
 
 Keeps a site's [Typekit][tk] in `localStorage` and injects it on page load.
 Eliminates the annoying Flash Of Invisible/Unstyled Text (FOUT) and provides
@@ -15,7 +15,7 @@ That's it, your website should be caching your Typekit happily.
 
 ```html
 <script>
-	try{!function(t,e,n,r,a,s,i,l) // ...
+	!function(e,t,n,a,r,c,l,s,o){ /* ... */ }( /* ... */ );
 </script>
 <script>
 	(function(d) {
@@ -28,36 +28,25 @@ That's it, your website should be caching your Typekit happily.
 </script>
 ```
 
+
 ## Notes
 
-Works in recent Firefox, Chrome, Safari, and IE.
-Please contribute issues and pull requests if you find any quirks.
-Check `typekit-cache.js` for more information.
+The regular Typekit behavior is not modified at all.
+Exceptions visible in the console (e.g. if the storage is not available) can be safely ignored.
+However, you should use separate `<script>` tags to ensure the Typekit embed code is still run if an exception occurs.
 
-Quota errors in `localStorage` are silently ignored.
-The quota is set to 0 in Safari Privat Mode so Typekits will not be cached.
+In addition to the regular `wf-*` classes, the `wf-cached` class is added to the `<html>` tag on cache hit.
+
+To use `sessionStorage` instead, just replace the `localStorage` reference.
 
 Typekits may be quite large, and the performance impact of injecting
 them as inline stylesheets is not well tested.
 
-FOUC can still occur on first page load. You can choose to hide text while the
-font is being loaded. A good option is to hide text when `wf-active`,
-`wf-inactive` or `wf-cached` classes are missing on the `<html>` element.
-
-```css
-html:not(.wf-active):not(.wf-inactive):not(.wf-cached) * {
-  /* Hide text */
-}
-```
 
 ## Contributing
 
-The minified version is built using uglifyjs which is installed as a local dependency. To install and build run the following commands:
-
-```
-$ npm install
-$ npm run prepublish
-```
+Make sure PRs contain an updated minified version.
+Run `npm run prepublish` to build it.
 
 ## Contributors
 
@@ -69,6 +58,7 @@ $ npm run prepublish
 - [Luke Bussey](https://github.com/lukebussey)
 
 Thanks!
+
 
 [tk]: https://typekit.com/
 [tou]: http://www.adobe.com/products/eulas/tou_typekit/
