@@ -1,5 +1,7 @@
 # Typekit Cache
 
+## Currently BROKEN, see https://github.com/morris/typekit-cache/issues/13
+
  *Revision 5*
 
 Keeps a site's [Typekit][tk] in `localStorage` and injects it on page load.
