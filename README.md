@@ -1,8 +1,6 @@
 # Typekit Cache
 
-## Currently BROKEN, see https://github.com/morris/typekit-cache/issues/13
-
- *Revision 5*
+ *Revision 13 Beta 1*
 
 Keeps a site's [Typekit][tk] in `localStorage` and injects it on page load.
 Eliminates the annoying Flash Of Invisible/Unstyled Text (FOUT) and provides
@@ -19,7 +17,7 @@ That's it, your website should be caching your Typekit happily.
 
 ```html
 <script>
-	!function(e,t,n,a,r,c,l,s,o){ /* ... */ }( /* ... */ );
+	!function(e,t,n,a,c,l,m,o,d,i,h,s,u){ /* ... */ }( /* ... */ );
 </script>
 <script>
 	(function(d) {

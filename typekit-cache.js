@@ -1,68 +1,60 @@
-( function ( document, proto, method, storage, key, domain, /* min */ cached, style, setAttribute ) {
+( function (
+	// constants
+	document,
+	className,
+	innerHTML,
+	getElementsByTagName,
+	style,
+	// config
+	storage,
+	key,
+	pattern,
+	// min
+	cached,
+	el,
+	els,
+	i,
+	css ) {
 
 	// If CSS is in cache, append it to <head> in a <style> tag.
 
 	cached = storage[ key ];
 	if ( cached ) {
-		style = document.createElement( 'style' );
-		style.innerHTML = cached;
-		document.getElementsByTagName( 'head' )[ 0 ].appendChild( style );
-		document.documentElement.className += ' wf-cached';
+		el = document.createElement( style );
+		el[ innerHTML ] = cached;
+		el[ key ] = 1;
+		document[ getElementsByTagName ]( 'head' )[ 0 ].appendChild( el );
+		document.documentElement[ className ] += ' wf-cached';
 	}
 
-	// The typekit will at some point create a <link> to load its CSS.
-	// Override Element.prototype.setAttribute to handle setting its href.
+	storage[ key ] = '';
 
-	setAttribute = proto[ method ];
-	proto[ method ] = function ( name, url, /* min */ xhr, css ) {
+	( function check() {
 
-		if ( typeof url == 'string' && url.indexOf( domain ) > -1 ) {
+		els = document[ getElementsByTagName ]( style );
 
-			try {
-
-				// Get the CSS of the URL via XHR and cache it.
-				// Only overwrite cache if CSS has changed.
-
-				xhr = new XMLHttpRequest();
-				xhr.open( 'GET', url, true );
-				xhr.onreadystatechange = function () {
-
-					try {
-
-						if ( xhr.readyState == 4 ) {
-
-							// Make relative URLs absolute. Fixes #2
-							css = xhr.responseText.replace( /url\(\//g, 'url(' + domain + '/' );
-
-							// Store new CSS if modified.
-							if ( css !== cached ) storage[ key ] = css;
-
-						}
-
-					} catch ( x ) {
-
-						// Fall back to regular behavior. Fixes #3
-						if ( style ) style.innerHTML = '';
-
-					}
-
-				};
-				xhr.send( null );
-
-			} catch ( x ) {
-
-				// The only possible side effect here is an empty <style> element.
-
+		for ( i = 0; i < els.length; i++ ) {
+			el = els[ i ];
+			css = el[ innerHTML ];
+			if ( el[ key ] != 1 && css.match( pattern ) ) {
+				storage[ key ] += css;
+				el[ key ] = 1;
 			}
-
-			// Reset Element.prototype.setAttribute
-			proto[ method ] = setAttribute;
-
 		}
 
-		// Always apply original setAttribute
-		return setAttribute.apply( this, arguments );
+		setTimeout( check, 100 );
 
-	};
+	} )();
 
-} )( document, Element.prototype, 'setAttribute', localStorage, 'tk', 'https://use.typekit.net' );
+} )(
+	// constants
+	document,
+	'className',
+	'innerHTML',
+	'getElementsByTagName',
+	'style',
+	// config
+	localStorage,
+	'tk',
+	/\.tk-|\.typekit\.net/
+);
