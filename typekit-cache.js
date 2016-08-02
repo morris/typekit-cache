@@ -1,60 +1,62 @@
 ( function (
-	// constants
+	// Constants
 	document,
-	className,
+	style,
 	innerHTML,
 	getElementsByTagName,
-	style,
-	// config
+	// Config
 	storage,
 	key,
 	pattern,
-	// min
-	cached,
-	el,
-	els,
+	delay,
+	// Vars
+	temp,
+	next,
 	i,
 	css ) {
 
 	// If CSS is in cache, append it to <head> in a <style> tag.
 
-	cached = storage[ key ];
-	if ( cached ) {
-		el = document.createElement( style );
-		el[ innerHTML ] = cached;
-		el[ key ] = 1;
-		document[ getElementsByTagName ]( 'head' )[ 0 ].appendChild( el );
-		document.documentElement[ className ] += ' wf-cached';
+	if ( storage[ key ] ) {
+		temp = document.createElement( style );
+		temp[ innerHTML ] = storage[ key ];
+		document[ getElementsByTagName ]( 'head' )[ 0 ].appendChild( temp );
+		document.documentElement.className += ' wf-cached';
 	}
 
-	storage[ key ] = '';
+	// Find and cache the Typekit CSS.
 
-	( function check() {
+	( function cache() {
 
-		els = document[ getElementsByTagName ]( style );
+		// Find matching CSS.
+		temp = document[ getElementsByTagName ]( style );
+		next = '';
 
-		for ( i = 0; i < els.length; i++ ) {
-			el = els[ i ];
-			css = el[ innerHTML ];
-			if ( el[ key ] != 1 && css.match( pattern ) ) {
-				storage[ key ] += css;
-				el[ key ] = 1;
+		for ( i = 0; i < temp.length; i++ ) {
+			css = temp[ i ][ innerHTML ];
+			if ( css.match( pattern ) ) {
+				next += css;
 			}
 		}
 
-		setTimeout( check, 100 );
+		// If there's matching CSS, cache it.
+		// Prefix cached CSS so it does not match the pattern.
+		if ( next ) storage[ key ] = '/**/' + next;
+
+		// Retry using exponential backoff.
+		setTimeout( cache, delay += delay );
 
 	} )();
 
 } )(
-	// constants
+	// Constants
 	document,
-	'className',
+	'style',
 	'innerHTML',
 	'getElementsByTagName',
-	'style',
-	// config
+	// Config
 	localStorage,
 	'tk',
-	/\.tk-|\.typekit\.net/
+	/^@font|^\.tk-/,
+	100
 );

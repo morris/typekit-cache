@@ -1,6 +1,6 @@
 # Typekit Cache
 
- *Revision 13 Beta 1*
+ *Revision 13 Beta 2*
 
 Keeps a site's [Typekit][tk] in `localStorage` and injects it on page load.
 Eliminates the annoying Flash Of Invisible/Unstyled Text (FOUT) and provides
@@ -40,9 +40,6 @@ However, you should use separate `<script>` tags to ensure the Typekit embed cod
 In addition to the regular `wf-*` classes, the `wf-cached` class is added to the `<html>` tag on cache hit.
 
 To use `sessionStorage` instead, just replace the `localStorage` reference.
-
-Typekits may be quite large, and the performance impact of injecting
-them as inline stylesheets is not well tested.
 
 
 ## Contributing
