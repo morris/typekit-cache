@@ -1,57 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>Typekit Cache Visibility Test</title>
+  <head>
+    <meta charset="utf-8">
+    <title>Typekit Cache Visibility Test</title>
 
-		<link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-1.20.0.css">
-		<script src="https://code.jquery.com/qunit/qunit-1.20.0.js"></script>
-		<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-	</head>
+    <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-1.20.0.css">
+    <script src="https://code.jquery.com/qunit/qunit-1.20.0.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+  </head>
 
-	<body>
-		<div style="overflow: hidden">
-			<h4 id="a" style="float: left; font-family: kinescope, sans-serif">Test&nbsp;</h4>
-			<h4 id="b" style="float: left; font-family: sans-serif">Test&nbsp;</h4>
-		</div>
+  <body>
+    <div style="overflow: hidden">
+      <h4 id="a" style="float: left; font-family: kinescope, sans-serif">Test&nbsp;</h4>
+      <h4 id="b" style="float: left; font-family: sans-serif">Test&nbsp;</h4>
+    </div>
 
-		<p>
-			<img src="http://static.comicvine.com/uploads/original/12/129802/3526965-nic+cage+face+body.jpg" width="150">
-			<img src="http://static.comicvine.com/uploads/original/12/129802/3526965-nic+cage+face+body.jpg" width="150">
-		</p>
+    <p>
+      <img src="http://static.comicvine.com/uploads/original/12/129802/3526965-nic+cage+face+body.jpg" width="150">
+      <img src="http://static.comicvine.com/uploads/original/12/129802/3526965-nic+cage+face+body.jpg" width="150">
+    </p>
 
-		<div id="qunit"></div>
-		<div id="qunit-fixture"></div>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
 
-		<p><button onclick="javascript:localStorage.removeItem( 'tk' )">Reset localStorage</button></p>
+    <p><button onclick="javascript:localStorage.removeItem( 'tk' )">Reset localStorage</button></p>
 
-		<script>
-			var kitId = window.location.hash.slice( 1 );
-			QUnit.test( 'The Typekit should work', function ( assert ) {
+    <script>
+      var kitId = window.location.hash.slice( 1 );
+      QUnit.test( 'The Typekit should work', function ( assert ) {
 
-				assert.ok( kitId, 'A kitId of a Typekit with the Kinescope font is required: visible.html#<kitId>' );
+        assert.ok( kitId, 'A kitId of a Typekit with the Kinescope font is required: visible.html#<kitId>' );
 
-				var done = assert.async();
-				setTimeout( function () {
-					assert.ok( $( 'html' ).is( '.wf-active' ), '.wf-active class is set' );
-					assert.notEqual( $( '#a' ).width(), $( '#b' ).width(), 'Kinescope font is visible' );
-					done();
-				}, 1500 );
+        var done = assert.async();
+        setTimeout( function () {
+          assert.ok( $( 'html' ).is( '.wf-active' ), '.wf-active class is set' );
+          assert.notEqual( $( '#a' ).width(), $( '#b' ).width(), 'Kinescope font is visible' );
+          done();
+        }, 1500 );
 
-			} );
-		</script>
-		<script src="../typekit-cache.js"></script>
-		<script>
-			(function(d) {
-				var config = {
-					kitId: kitId,
-					scriptTimeout: 3000,
-					async: true
-				},
-				h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};
-				// delay inserting the Typekit script for testing
-				setTimeout( function () { s.parentNode.insertBefore(tk,s); }, 1000 );
-			})(document);
-		</script>
-	</body>
+      } );
+    </script>
+    <script src="../typekit-cache.js"></script>
+    <script>
+      (function(d) {
+        var config = {
+          kitId: kitId,
+          scriptTimeout: 3000,
+          async: true
+        },
+        h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};
+        // delay inserting the Typekit script for testing
+        setTimeout( function () { s.parentNode.insertBefore(tk,s); }, 1000 );
+      })(document);
+    </script>
+  </body>
 </html>

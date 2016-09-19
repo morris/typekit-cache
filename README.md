@@ -1,6 +1,6 @@
 # Typekit Cache
 
- *Revision 13 Beta 2*
+*Revision 13*
 
 Keeps a site's [Typekit][tk] in `localStorage` and injects it on page load.
 Eliminates the annoying Flash Of Invisible/Unstyled Text (FOUT) and provides
@@ -17,16 +17,16 @@ That's it, your website should be caching your Typekit happily.
 
 ```html
 <script>
-	!function(e,t,n,a,c,l,m,o,d,i,h,s,u){ /* ... */ }( /* ... */ );
+  !function(e,t,n,a,c,l,m,o,d,f,h,i){ /* ... */ }( /* ... */ );
 </script>
 <script>
-	(function(d) {
-		var config = {
-			kitId: 'abcd1234',
-			scriptTimeout: 3000
-		},
-		h=d.documentElement, // ...
-	})(document);
+  (function(d) {
+    var config = {
+      kitId: 'abcd1234',
+      scriptTimeout: 3000
+    },
+    h=d.documentElement, // ...
+  })(document);
 </script>
 ```
 
@@ -46,6 +46,7 @@ To use `sessionStorage` instead, just replace the `localStorage` reference.
 
 Make sure PRs contain an updated minified version.
 Run `npm run prepublish` to build it.
+
 
 ## Contributors
 
