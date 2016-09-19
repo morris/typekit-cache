@@ -1,6 +1,6 @@
 {
   "name": "typekit-cache",
-  "version": "1.5.0",
+  "version": "1.13.0",
   "description": "Keeps a site's Typekit in localStorage and injects it on page load. Eliminates the annoying Flash Of Invisible/Unstyled Text (FOUT) and provides better UX for slow or offline connections.",
   "main": "typekit-cache.js",
   "directories": {
