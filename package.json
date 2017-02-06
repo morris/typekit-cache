@@ -7,7 +7,7 @@
     "test": "test"
   },
   "dependencies": {
-    "uglifyjs": "^2.7.5"
+    "uglifyjs": "^2.4.10"
   },
   "devDependencies": {},
   "scripts": {
