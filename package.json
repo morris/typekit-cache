@@ -6,13 +6,14 @@
   "directories": {
     "test": "test"
   },
-  "dependencies": {
-    "uglifyjs": "^2.4.10"
+  "dependencies": {},
+  "devDependencies": {
+    "uglify-js": "^3.0.10"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepublish": "uglifyjs typekit-cache.js -o typekit-cache.min.js --compress --mangle"
+    "minify": "uglifyjs typekit-cache.js -o typekit-cache.min.js --compress --mangle",
+    "prepublish": "npm run minify"
   },
   "repository": {
     "type": "git",

@@ -45,7 +45,7 @@ To use `sessionStorage` instead, just replace the `localStorage` reference.
 ## Contributing
 
 Make sure PRs contain an updated minified version.
-Run `npm run prepublish` to build it.
+Run `npm run minify` to build it.
 
 
 ## Contributors
