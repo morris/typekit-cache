@@ -1,18 +1,21 @@
 {
   "name": "typekit-cache",
-  "version": "1.13.0",
+  "version": "1.14.0",
   "description": "Keeps a site's Typekit in localStorage and injects it on page load. Eliminates the annoying Flash Of Invisible/Unstyled Text (FOUT) and provides better UX for slow or offline connections.",
   "main": "typekit-cache.js",
   "directories": {
     "test": "test"
   },
-  "dependencies": {
-    "uglifyjs": "^2.4.10"
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "prettier": "^1.17.0",
+    "terser": "^3.17.0"
   },
-  "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prepublish": "uglifyjs typekit-cache.js -o typekit-cache.min.js --compress --mangle"
+    "format": "prettier --write typekit-cache.js",
+    "lint": "eslint typekit-cache.js",
+    "build": "terser typekit-cache.js -o typekit-cache.min.js --compress --mangle",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
