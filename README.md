@@ -52,6 +52,7 @@ Run `npm run prepublish` to build it.
 - [Jan Persoons](https://github.com/janpersoons)
 - [Tristan Koch](https://github.com/trkoch)
 - [Luke Bussey](https://github.com/lukebussey)
+- [Viktor Kuliebiakin](https://github.com/kuliebiakin)
 
 Thanks!
 
