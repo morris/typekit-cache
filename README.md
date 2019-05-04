@@ -1,6 +1,6 @@
 # Typekit Cache
 
-*Revision 13*
+*Revision 14*
 
 Keeps a site's [Typekit][tk] in `localStorage` and injects it on page load.
 Eliminates the annoying Flash Of Invisible/Unstyled Text (FOUT) and provides
@@ -56,5 +56,5 @@ Run `npm run prepublish` to build it.
 Thanks!
 
 [tk]: https://typekit.com/
-[tou]: http://www.adobe.com/products/eulas/tou_typekit/
+[tou]: https://fonts.adobe.com/
 [min]: https://raw.githubusercontent.com/morris/typekit-cache/master/typekit-cache.min.js
