@@ -35,7 +35,7 @@
 
     for ( i = 0; i < temp.length; i++ ) {
       css = temp[ i ][ innerHTML ];
-      if ( css.match( pattern ) ) {
+      if ( css && css.match( pattern ) ) {
         next += css;
       }
     }
