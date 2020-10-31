@@ -1,6 +1,11 @@
 # Typekit Cache
 
-*Revision 14*
+_Revision 14_
+
+**Current Status:** typekit-cache only works for older Typekit installations (using JavaScript). Newer installations use a `<link>` tag; all resources are cached properly by the browser
+and served from disk on a revisit. This cannot be further improved so upgrading to the `<link>` embed and removing typekit-cache is recommended.
+
+---
 
 Keeps a site's [Typekit][tk] in `localStorage` and injects it on page load.
 Eliminates the annoying Flash Of Invisible/Unstyled Text (FOUT) and provides
@@ -16,7 +21,7 @@ That's it, your website should be caching your Typekit happily.
 
 ```html
 <script>
-  !function(e,t,n,a,l,m,c,o,s,d,g,i){ /* ... */ }( /* ... */ );
+  /* contents of typekit-cache.min.js */
 </script>
 <script>
   (function(d) {
